@@ -10,23 +10,30 @@ import UIKit
 // MARK: - SettingsViewController
 final class SettingsViewController: UIViewController {
     
+    // MARK: - Public Properties
+    var randomNumber: RandomNumber!
+    
+    var delegate: SettingsViewControllerDelegate!
+    
     // MARK: - UI Elements
     private lazy var maximumValueTF: UITextField = {
         let textField = UITextField()
-        textField.text = ""
+        textField.text = String(randomNumber.maximumValue)
         textField.font = .systemFont(ofSize: 14)
         textField.placeholder = "Maximum Value"
         textField.borderStyle = .roundedRect
+        textField.delegate = self
         
         return textField
     }()
     
     private lazy var minimumValueTF: UITextField = {
         let textField = UITextField()
-        textField.text = ""
+        textField.text = String(randomNumber.minimumValue)
         textField.font = .systemFont(ofSize: 14)
         textField.placeholder = "Minimum Value"
         textField.borderStyle = .roundedRect
+        textField.delegate = self
         
         return textField
     }()
@@ -97,6 +104,8 @@ private extension SettingsViewController {
 // MARK: - Action
 private extension SettingsViewController {
     @objc func saveButtonTapped() {
+        view.endEditing(true)
+        delegate.setNewValues(for: randomNumber)
         navigationController?.popViewController(animated: true)
     }
     
@@ -126,5 +135,24 @@ private extension SettingsViewController {
                 constant: -32
             )
         ])
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension SettingsViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let newValue = textField.text else { return }
+        guard let numberValue = Int(newValue) else { return }
+        
+        if textField == minimumValueTF {
+            randomNumber.minimumValue = numberValue
+        } else {
+            randomNumber.maximumValue = numberValue
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
 }

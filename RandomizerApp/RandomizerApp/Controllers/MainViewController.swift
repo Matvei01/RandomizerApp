@@ -7,8 +7,16 @@
 
 import UIKit
 
+// MARK: - SettingsViewControllerDelegate
+protocol SettingsViewControllerDelegate {
+    func setNewValues(for randomNumber: RandomNumber)
+}
+
 // MARK: - MainViewController
 final class MainViewController: UIViewController {
+    
+    // MARK: - Public Properties
+    var randomNumber = RandomNumber(minimumValue: 0, maximumValue: 100)
     
     // MARK: - UI Elements
     private lazy var randomValueLabel: UILabel = {
@@ -40,7 +48,7 @@ final class MainViewController: UIViewController {
     
     private lazy var minimumValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "0"
+        label.text = String(randomNumber.minimumValue)
         label.font = .systemFont(ofSize: 50)
         label.textAlignment = .center
         
@@ -49,7 +57,7 @@ final class MainViewController: UIViewController {
     
     private lazy var maximumValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "100"
+        label.text = String(randomNumber.maximumValue)
         label.font = .systemFont(ofSize: 50)
         label.textAlignment = .center
         
@@ -61,7 +69,7 @@ final class MainViewController: UIViewController {
             arrangedSubviews: [
                 fromLabel,
                 minimumValueLabel,
-                fromLabel,
+                toLabel,
                 maximumValueLabel
             ]
         )
@@ -81,6 +89,7 @@ final class MainViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 29)
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(getRandomNumberButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -90,6 +99,11 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        randomValueLabel.text = "?"
     }
 }
 
@@ -131,7 +145,13 @@ private extension MainViewController {
 private extension MainViewController {
     @objc func settingsButtonTapped() {
         let settingsVC = SettingsViewController()
+        settingsVC.randomNumber = randomNumber
+        settingsVC.delegate = self
         navigationController?.pushViewController(settingsVC, animated: true)
+    }
+    
+    @objc func getRandomNumberButtonTapped() {
+        randomValueLabel.text = String(randomNumber.getRandom)
     }
 }
 
@@ -188,4 +208,14 @@ private extension MainViewController {
         ])
     }
 }
+
+extension MainViewController: SettingsViewControllerDelegate {
+    func setNewValues(for randomNumber: RandomNumber) {
+        minimumValueLabel.text = String(randomNumber.minimumValue)
+        maximumValueLabel.text = String(randomNumber.maximumValue)
+        self.randomNumber = randomNumber
+    }
+}
+
+
 
