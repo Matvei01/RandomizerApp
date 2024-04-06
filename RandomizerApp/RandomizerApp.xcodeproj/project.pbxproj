@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A37AB962BC1600F001B174D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A37AB952BC1600F001B174D /* SettingsViewController.swift */; };
+		1A37AB992BC1AB8C001B174D /* RandomNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A37AB982BC1AB8C001B174D /* RandomNumber.swift */; };
 		1ACA63272BC0736200092CEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA63262BC0736200092CEC /* AppDelegate.swift */; };
 		1ACA63292BC0736200092CEC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA63282BC0736200092CEC /* SceneDelegate.swift */; };
 		1ACA632B2BC0736200092CEC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA632A2BC0736200092CEC /* MainViewController.swift */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		1A37AB952BC1600F001B174D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		1A37AB982BC1AB8C001B174D /* RandomNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumber.swift; sourceTree = "<group>"; };
 		1ACA63232BC0736200092CEC /* RandomizerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RandomizerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ACA63262BC0736200092CEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1ACA63282BC0736200092CEC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +39,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A37AB972BC1AB4A001B174D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1A37AB982BC1AB8C001B174D /* RandomNumber.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		1ACA631A2BC0736200092CEC = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +66,7 @@
 		1ACA63252BC0736200092CEC /* RandomizerApp */ = {
 			isa = PBXGroup;
 			children = (
+				1A37AB972BC1AB4A001B174D /* Models */,
 				1ACA633B2BC074B400092CEC /* Controllers */,
 				1ACA633D2BC074D300092CEC /* LaunchScreen */,
 				1ACA633C2BC074C600092CEC /* Resources */,
@@ -171,6 +182,7 @@
 			files = (
 				1ACA632B2BC0736200092CEC /* MainViewController.swift in Sources */,
 				1ACA63272BC0736200092CEC /* AppDelegate.swift in Sources */,
+				1A37AB992BC1AB8C001B174D /* RandomNumber.swift in Sources */,
 				1ACA63292BC0736200092CEC /* SceneDelegate.swift in Sources */,
 				1A37AB962BC1600F001B174D /* SettingsViewController.swift in Sources */,
 			);
