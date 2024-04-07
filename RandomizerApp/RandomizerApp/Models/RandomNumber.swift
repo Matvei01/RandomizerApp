@@ -6,6 +6,7 @@
 //
 
 struct RandomNumber {
+    
     var minimumValue: Int
     var maximumValue: Int
     
