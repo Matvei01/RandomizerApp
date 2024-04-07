@@ -17,41 +17,24 @@ final class SettingsViewController: UIViewController {
     
     // MARK: - UI Elements
     private lazy var maximumValueTF: UITextField = {
-        let textField = UITextField()
-        textField.text = String(randomNumber.maximumValue)
-        textField.font = .systemFont(ofSize: 14)
-        textField.placeholder = "Maximum Value"
-        textField.borderStyle = .roundedRect
-        textField.delegate = self
-        
-        return textField
+        createTextField(
+            text: String(randomNumber.maximumValue),
+            placeholder: "Maximum Value"
+        )
     }()
     
     private lazy var minimumValueTF: UITextField = {
-        let textField = UITextField()
-        textField.text = String(randomNumber.minimumValue)
-        textField.font = .systemFont(ofSize: 14)
-        textField.placeholder = "Minimum Value"
-        textField.borderStyle = .roundedRect
-        textField.delegate = self
-        
-        return textField
+        createTextField(
+            text: String(randomNumber.minimumValue),
+            placeholder: "Minimum Value"
+        )
     }()
     
     private lazy var valueTFStackView: UIStackView = {
-        let stackView = UIStackView(
-            arrangedSubviews: [
-                maximumValueTF,
-                minimumValueTF
-            ]
-        )
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 31
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
+        createStackView(subviews: [
+            maximumValueTF,
+            minimumValueTF
+        ])
     }()
     
     // MARK: - Override Methods
@@ -71,18 +54,17 @@ private extension SettingsViewController {
     }
     
     func addSubviews() {
-        view.addSubview(
-            valueTFStackView
-        )
+        view.addSubview(valueTFStackView)
     }
     
     func setupNavigationController() {
         title = "Settings"
+        
+        navigationItem.largeTitleDisplayMode = .never
         navigationItem.rightBarButtonItem = createBarButtonItem(
             type: .save,
             action: #selector(saveButtonTapped)
         )
-        
         navigationItem.leftBarButtonItem = createBarButtonItem(
             type: .cancel,
             action: #selector(cancelButtonTapped)
@@ -99,13 +81,39 @@ private extension SettingsViewController {
         )
         return barButtonItem
     }
+    
+    func createTextField(text: String, placeholder: String) -> UITextField {
+        let textField = UITextField()
+        textField.text = text
+        textField.font = .systemFont(ofSize: 14)
+        textField.placeholder = placeholder
+        textField.borderStyle = .roundedRect
+        textField.delegate = self
+        
+        return textField
+    }
+    
+    func createStackView(subviews: [UIView]) -> UIStackView {
+        let stackView = UIStackView(
+            arrangedSubviews: subviews
+        )
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 31
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }
 }
 
 // MARK: - Action
 private extension SettingsViewController {
     @objc func saveButtonTapped() {
         view.endEditing(true)
+        
         delegate.setNewValues(for: randomNumber)
+        
         navigationController?.popViewController(animated: true)
     }
     
@@ -117,10 +125,6 @@ private extension SettingsViewController {
 // MARK: - Constraints
 private extension SettingsViewController {
     func setConstraints() {
-        setConstraintsForValueTFStackView()
-    }
-    
-    func setConstraintsForValueTFStackView() {
         NSLayoutConstraint.activate([
             valueTFStackView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor,

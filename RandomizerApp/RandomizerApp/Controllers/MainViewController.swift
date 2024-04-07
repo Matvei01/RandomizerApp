@@ -20,79 +20,56 @@ final class MainViewController: UIViewController {
     
     // MARK: - UI Elements
     private lazy var randomValueLabel: UILabel = {
-        let label = UILabel()
-        label.text = "?"
-        label.font = .systemFont(ofSize: 98)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
+        createLabel(
+            text: "?",
+            font: .systemFont(ofSize: 98),
+            autoresizing: false
+        )
     }()
     
     private lazy var fromLabel: UILabel = {
-        let label = UILabel()
-        label.text = "from"
-        label.font = .systemFont(ofSize: 29)
-        label.textAlignment = .center
-        
-        return label
+        createLabel(
+            text: "from",
+            font: .systemFont(ofSize: 29),
+            alignment: .center
+        )
     }()
     
     private lazy var toLabel: UILabel = {
-        let label = UILabel()
-        label.text = "to"
-        label.font = .systemFont(ofSize: 29)
-        label.textAlignment = .center
-        
-        return label
+        createLabel(
+            text: "to",
+            font: .systemFont(ofSize: 29),
+            alignment: .center
+        )
     }()
     
     private lazy var minimumValueLabel: UILabel = {
-        let label = UILabel()
-        label.text = String(randomNumber.minimumValue)
-        label.font = .systemFont(ofSize: 50)
-        label.textAlignment = .center
-        
-        return label
+        createLabel(
+            text: String(randomNumber.minimumValue),
+            font: .systemFont(ofSize: 50),
+            alignment: .center
+        )
     }()
     
     private lazy var maximumValueLabel: UILabel = {
-        let label = UILabel()
-        label.text = String(randomNumber.maximumValue)
-        label.font = .systemFont(ofSize: 50)
-        label.textAlignment = .center
-        
-        return label
+        createLabel(
+            text: String(randomNumber.maximumValue),
+            font: .systemFont(ofSize: 50),
+            alignment: .center
+        )
     }()
     
     private lazy var randomLabelsStackView: UIStackView = {
-        let stackView = UIStackView(
-            arrangedSubviews: [
-                fromLabel,
-                minimumValueLabel,
-                toLabel,
-                maximumValueLabel
-            ]
-        )
-        stackView.axis = .horizontal
-        stackView.alignment = .bottom
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 0
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
+        createStackView(subviews: [
+            fromLabel,
+            minimumValueLabel,
+            toLabel,
+            maximumValueLabel
+        ])
     }()
     
     private lazy var getRandomNumberButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .background
-        button.setTitle("Get Result", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 29)
-        button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(getRandomNumberButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
+        createButton()
     }()
     
     // MARK: - Override Methods
@@ -132,12 +109,55 @@ private extension MainViewController {
     
     func setupNavigationController() {
         title = "Randomizer"
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "gearshape.fill"),
             style: .plain,
             target: self,
             action: #selector(settingsButtonTapped)
         )
+    }
+    
+    func createLabel(text: String,
+                     font: UIFont,
+                     alignment: NSTextAlignment? = nil,
+                     autoresizing: Bool? = nil) -> UILabel {
+        
+        let label = UILabel()
+        label.text = text
+        label.font = font
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = autoresizing ?? true
+        
+        return label
+    }
+    
+    func createStackView(subviews: [UIView]) -> UIStackView {
+        let stackView = UIStackView(
+            arrangedSubviews: subviews
+        )
+        stackView.axis = .horizontal
+        stackView.alignment = .bottom
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }
+    
+    func createButton() -> UIButton {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .background
+        button.setTitle("Get Result", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 29)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(getRandomNumberButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
     }
 }
 
@@ -147,6 +167,7 @@ private extension MainViewController {
         let settingsVC = SettingsViewController()
         settingsVC.randomNumber = randomNumber
         settingsVC.delegate = self
+        
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
